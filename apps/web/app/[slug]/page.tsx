@@ -9,9 +9,9 @@ import { ArrowLeft } from "lucide-react"
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }) {
-  const { slug } = params
+  const { slug } = await params
 
   const article = await getArticleBySlug(slug)
   if (!article) return {}
@@ -47,9 +47,9 @@ export async function generateMetadata({
 export default async function PostPage({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }) {
-  const { slug } = params
+  const { slug } = await params
 
   if (!slug) return notFound()
 
