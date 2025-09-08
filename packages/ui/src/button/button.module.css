@@ -1,0 +1,41 @@
+.button {
+  font-family: var(--font-geist-sans);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 10px 16px;
+  border-radius: 0.5rem;
+  border: 2px solid;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.1s ease-in-out;
+}
+
+.button.default {
+  background-color: var(--foreground);
+  color: var(--background);
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.button.outline {
+  background-color: var(--background);
+  color: var(--foreground);
+  border: 0;
+
+  &:hover {
+    background-color: var(--card);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}

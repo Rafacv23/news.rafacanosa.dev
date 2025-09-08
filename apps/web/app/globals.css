@@ -1,6 +1,8 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fdfdfc;
+  --foreground: #21201c;
+  --secondary: #030712a7;
+  --card: #f5f4f4;
   font-family:
     system-ui,
     -apple-system,
@@ -17,14 +19,29 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #21201c;
+    --foreground: #fdfdfc;
+    --secondary: #f5f4f4c0;
+    --card: #e5e7eb0e;
+    font-family:
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      "Open Sans",
+      "Helvetica Neue",
+      sans-serif;
   }
 }
 
 html,
 body {
-  max-width: 100vw;
+  max-width: 900px;
+  margin: 0 auto;
   overflow-x: hidden;
 }
 
@@ -42,6 +59,12 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+li {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
 }
 
 .imgDark {

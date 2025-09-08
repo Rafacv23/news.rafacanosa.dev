@@ -8,8 +8,6 @@
 
   display: grid;
   grid-template-rows: 20px 1fr 20px;
-  align-items: center;
-  justify-items: center;
   min-height: 100svh;
   padding: 80px;
   gap: 64px;
@@ -27,15 +25,21 @@
   }
 }
 
+.articlesList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
+  gap: 1rem;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
 .main {
   display: flex;
   flex-direction: column;
-  gap: 32px;
-  grid-row-start: 2;
-}
-
-.main li:not(:last-of-type) {
-  margin-bottom: 8px;
+  align-items: flex-start;
+  width: 100%;
 }
 
 a.primary {
@@ -112,10 +116,6 @@ button.secondary {
   .page {
     padding: 32px;
     padding-bottom: 80px;
-  }
-
-  .main {
-    align-items: center;
   }
 
   a.secondary {
