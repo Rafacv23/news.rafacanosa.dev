@@ -1,6 +1,7 @@
 import { type JSX } from "react"
 import styles from "./card.module.css"
 import { ArrowUpRight } from "lucide-react"
+import Link from "next/link"
 
 export function Card({
   className,
@@ -14,12 +15,7 @@ export function Card({
   href: string
 }): JSX.Element {
   return (
-    <a
-      className={`${styles.card} ${className}`}
-      href={`${href}`}
-      rel="noopener noreferrer"
-      target="_blank"
-    >
+    <Link className={`${styles.card} ${className}`} href={`${href}`}>
       <h2 className={styles.title}>
         {title}{" "}
         <span>
@@ -27,7 +23,7 @@ export function Card({
         </span>
       </h2>
       <p className={styles.excerpt}>{excerpt}</p>
-    </a>
+    </Link>
   )
 }
 
@@ -45,12 +41,7 @@ export function MainCard({
   href: string
 }): JSX.Element {
   return (
-    <a
-      className={`${styles.card} ${className}`}
-      href={`${href}`}
-      rel="noopener noreferrer"
-      target="_blank"
-    >
+    <Link className={`${styles.card} ${className}`} href={`${href}`}>
       <img src={img} alt={title} className={styles.img} />
       <h2 className={styles.title}>
         {title}{" "}
@@ -59,6 +50,6 @@ export function MainCard({
         </span>
       </h2>
       <p className={styles.excerpt}>{excerpt}</p>
-    </a>
+    </Link>
   )
 }
