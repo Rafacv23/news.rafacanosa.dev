@@ -11,6 +11,8 @@ export async function generateMetadata({
 }: {
   params: { slug: string }
 }) {
+  const { slug } = await params
+
   const article = await getArticleBySlug(params.slug)
   if (!article) return {}
 
