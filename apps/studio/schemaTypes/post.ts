@@ -5,9 +5,19 @@ export default defineType({
   title: 'Post',
   type: 'document',
   fields: [
+    {
+      title: 'Seo',
+      name: 'seo',
+      type: 'seoMetaFields',
+    },
     defineField({
       name: 'title',
       title: 'Title',
+      type: 'string',
+    }),
+    defineField({
+      name: 'excerpt',
+      title: 'Excerpt',
       type: 'string',
     }),
     defineField({
