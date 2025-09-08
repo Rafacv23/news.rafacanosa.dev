@@ -20,8 +20,6 @@ export default async function PostPage({
     return <div>Loading...</div>
   }
 
-  console.log(article)
-
   return (
     <div className={styles.page}>
       <main>
