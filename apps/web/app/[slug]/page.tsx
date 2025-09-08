@@ -6,6 +6,42 @@ import Link from "next/link"
 import { PortableText } from "@portabletext/react"
 import { ArrowLeft } from "lucide-react"
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string }
+}) {
+  const article = await getArticleBySlug(params.slug)
+  if (!article) return {}
+
+  return {
+    title: article.seo.metaTitle,
+    description: article.seo.metaDescription || "Detalle del artículo",
+    openGraph: {
+      title: article.seo.metaTitle,
+      description: article.seo.metaDescription || "Detalle del artículo",
+      images: article.seo?.metaImage
+        ? [
+            {
+              url: buildSanityImgUrl(article.seo.metaImage.asset._ref),
+              width: 800,
+              height: 600,
+              alt: article.seo.metaTitle,
+            },
+          ]
+        : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.seo.metaTitle,
+      description: article.seo.metaDescription || "Detalle del artículo",
+      images: article.seo?.metaImage
+        ? [buildSanityImgUrl(article.seo.metaImage.asset._ref)]
+        : [],
+    },
+  }
+}
+
 export default async function PostPage({
   params,
 }: {
@@ -20,6 +56,8 @@ export default async function PostPage({
   if (!article) {
     return <div>Loading...</div>
   }
+
+  console.log(article)
 
   return (
     <div className={styles.page}>
