@@ -1,7 +1,8 @@
 import { Card, MainCard } from "./components/card/card"
-import Footer from "./components/footer"
+import Footer from "./components/footer/footer"
 import Header from "./components/header/header"
 import { Article, getArticles } from "./lib/post"
+import { buildSanityImgUrl } from "./lib/utils"
 import styles from "./page.module.css"
 
 export default async function Home() {
@@ -26,8 +27,8 @@ export default async function Home() {
           className={styles.card}
           title={firstArticle.title}
           excerpt={firstArticle.excerpt}
-          img={firstArticle.img}
-          href={firstArticle.slug}
+          img={buildSanityImgUrl(firstArticle.mainImage.asset._ref)}
+          href={firstArticle.slug || ""}
         />
         <ul className={styles.articlesList}>
           {otherArticles.map((article: Article) => (
@@ -35,7 +36,7 @@ export default async function Home() {
               <Card
                 title={article.title}
                 excerpt={article.excerpt}
-                href={article.slug}
+                href={article.slug || ""}
               />
             </li>
           ))}

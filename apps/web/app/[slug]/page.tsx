@@ -1,6 +1,9 @@
 import { notFound } from "next/navigation"
-import styles from "../page.module.css"
+import styles from "./page.module.css"
 import { getArticleBySlug } from "../lib/post"
+import { buildSanityImgUrl } from "../lib/utils"
+import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
 
 export default async function PostPage({
   params,
@@ -16,12 +19,36 @@ export default async function PostPage({
   if (!article) {
     return <div>Loading...</div>
   }
+
   console.log(article)
 
   return (
     <div className={styles.page}>
-      <h1>{article.title}</h1>
-      <p>{article.excerpt}</p>
+      <main>
+        <Link href="/" title="Home" className={styles.back}>
+          <ArrowLeft size={16} /> Volver
+        </Link>
+        <img
+          src={buildSanityImgUrl(article.mainImage.asset._ref)}
+          alt={article.title}
+          className={styles.img}
+        />
+        <h1 className={styles.title}>{article.title}</h1>
+        <h2 className={styles.excerpt}>{article.excerpt}</h2>
+        <p className={styles.body}>
+          {article.body.map((block) => {
+            return (
+              <p key={block._key}>
+                {block.children.map((child) => child.text).join("")}
+              </p>
+            )
+          })}
+        </p>
+        <footer className={styles.footer}>
+          {article.author.name} |{" "}
+          {new Date(article.publishedAt).toLocaleDateString()}
+        </footer>
+      </main>
     </div>
   )
 }

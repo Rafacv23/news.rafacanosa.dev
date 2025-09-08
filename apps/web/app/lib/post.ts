@@ -4,8 +4,56 @@ export type Article = {
   _id: string
   title: string
   excerpt: string
-  slug: string
-  img: string
+  slug: string | null
+  mainImage: {
+    _type: string
+    asset: {
+      _ref: string
+      _type: string
+    }
+  }
+  publishedAt: string
+  seo: any | null
+  author: {
+    _id: string
+    name: string
+    image: {
+      _type: string
+      asset: {
+        _ref: string
+        _type: string
+      }
+      crop?: {
+        _type: string
+        bottom: number
+        left: number
+        right: number
+        top: number
+      }
+      hotspot?: {
+        _type: string
+        height: number
+        width: number
+        x: number
+        y: number
+      }
+    }
+  }
+  categories: Array<{
+    _id: string
+    slug: string | null
+    title: string
+  }>
+  body: Array<{
+    _key: string
+    _type: string
+    children: Array<{
+      // Add properties as needed
+      [key: string]: any
+    }>
+    markDefs: Array<any>
+    style: string
+  }>
 }
 
 export async function getArticles(): Promise<Article[]> {

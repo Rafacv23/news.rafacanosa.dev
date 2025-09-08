@@ -24,16 +24,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <ThemeProvider
-        attribute="data-theme"
-        defaultTheme="system"
-        enableSystem={true}
-        value={{ light: "light", dark: "dark" }}
-      >
-        <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <ThemeProvider
+          attribute="data-theme"
+          defaultTheme="system"
+          enableSystem={true}
+          value={{ light: "light", dark: "dark" }}
+        >
           {children}
-        </body>
-      </ThemeProvider>
+        </ThemeProvider>
+      </body>
     </html>
   )
 }
