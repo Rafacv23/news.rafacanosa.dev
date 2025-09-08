@@ -13,9 +13,13 @@ export const Button = ({
   children,
   className,
   variant = "default",
+  ...props
 }: ButtonProps & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
-    <button className={`${styles.button} ${styles[variant]} ${className}`}>
+    <button
+      className={`${styles.button} ${styles[variant]} ${className}`}
+      {...props}
+    >
       {children}
     </button>
   )

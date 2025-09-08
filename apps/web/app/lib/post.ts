@@ -5,7 +5,7 @@ export type Article = {
   title: string
   excerpt: string
   slug: string
-  img?: string
+  img: string
 }
 
 export async function getArticles(): Promise<Article[]> {

@@ -1,6 +1,6 @@
 import { Card, MainCard } from "./components/card/card"
 import Footer from "./components/footer"
-import Header from "./components/header"
+import Header from "./components/header/header"
 import { Article, getArticles } from "./lib/post"
 import styles from "./page.module.css"
 
@@ -26,7 +26,7 @@ export default async function Home() {
           className={styles.card}
           title={firstArticle.title}
           excerpt={firstArticle.excerpt}
-          img={firstArticle.img || ""}
+          img={firstArticle.img}
           href={firstArticle.slug}
         />
         <ul className={styles.articlesList}>

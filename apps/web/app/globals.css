@@ -1,4 +1,4 @@
-:root {
+[data-theme="light"] {
   --background: #fdfdfc;
   --foreground: #21201c;
   --secondary: #030712a7;
@@ -17,25 +17,23 @@
     sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #21201c;
-    --foreground: #fdfdfc;
-    --secondary: #f5f4f4c0;
-    --card: #e5e7eb0e;
-    font-family:
-      system-ui,
-      -apple-system,
-      BlinkMacSystemFont,
-      "Segoe UI",
-      Roboto,
-      Oxygen,
-      Ubuntu,
-      Cantarell,
-      "Open Sans",
-      "Helvetica Neue",
-      sans-serif;
-  }
+[data-theme="dark"] {
+  --background: #21201c;
+  --foreground: #fdfdfc;
+  --secondary: #f5f4f4c0;
+  --card: #e5e7eb0e;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
 }
 
 html,
