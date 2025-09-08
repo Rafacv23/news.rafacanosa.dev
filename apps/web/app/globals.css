@@ -59,12 +59,6 @@ a {
   text-decoration: none;
 }
 
-li {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-}
-
 .imgDark {
   display: none;
 }
@@ -80,4 +74,11 @@ li {
   .imgDark {
     display: unset;
   }
+}
+
+.prose ul li,
+.prose ol li {
+  list-style: inherit;
+  display: list-item;
+  flex-direction: initial;
 }

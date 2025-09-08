@@ -3,6 +3,7 @@ import styles from "./page.module.css"
 import { getArticleBySlug } from "../lib/post"
 import { buildSanityImgUrl } from "../lib/utils"
 import Link from "next/link"
+import { PortableText } from "@portabletext/react"
 import { ArrowLeft } from "lucide-react"
 
 export default async function PostPage({
@@ -33,15 +34,9 @@ export default async function PostPage({
         />
         <h1 className={styles.title}>{article.title}</h1>
         <h2 className={styles.excerpt}>{article.excerpt}</h2>
-        <p className={styles.body}>
-          {article.body.map((block) => {
-            return (
-              <p key={block._key}>
-                {block.children.map((child) => child.text).join("")}
-              </p>
-            )
-          })}
-        </p>
+        <div className={styles.prose}>
+          <PortableText value={article.body} />
+        </div>
         <footer className={styles.footer}>
           {article.author.name} |{" "}
           {new Date(article.publishedAt).toLocaleDateString()}
