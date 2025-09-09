@@ -12,7 +12,8 @@ export default function Newsletter() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const formData = new FormData(event.currentTarget)
+    const form = event.currentTarget // Save reference early
+    const formData = new FormData(form)
     const email = formData.get("email")?.toString()
 
     if (!email) {
@@ -22,21 +23,24 @@ export default function Newsletter() {
 
     const result = newsletterSchema.safeParse({ email })
     if (!result.success) {
-      toast.error(result.error.message)
+      // Show the first error message from Zod
+      toast.error("Email inválido")
       return
     }
 
     try {
       setLoading(true)
-      const result = await subscribeToNewsletter(email)
-      if (!result?.success) {
-        toast.error("No se pudo suscribir. Verifica tu email.")
+      const response = await subscribeToNewsletter(email)
+      if (!response?.success) {
+        toast.error(
+          response?.message || "Error al suscribirse. Inténtalo de nuevo."
+        )
         return
       }
-      toast.success("¡Suscrito con éxito! Revisa tu email.")
-      event.currentTarget.reset()
-    } catch (error) {
-      toast.error("Error al suscribirse. Inténtalo de nuevo.")
+      toast.success(response.message)
+      form.reset()
+    } catch (error: any) {
+      toast.error(error.message)
     } finally {
       setLoading(false)
     }
