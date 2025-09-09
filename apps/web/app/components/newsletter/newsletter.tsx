@@ -4,6 +4,8 @@ import { useState } from "react"
 import { subscribeToNewsletter } from "../../lib/newsletter"
 import { Button } from "../button/button"
 import styles from "./newsletter.module.css"
+import { newsletterSchema } from "../../lib/schemas"
+import { toast } from "sonner"
 
 export default function Newsletter() {
   const [loading, setLoading] = useState<boolean>(false)
@@ -12,14 +14,29 @@ export default function Newsletter() {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
     const email = formData.get("email")?.toString()
+
+    if (!email) {
+      toast.error("El email es obligatorio.")
+      return
+    }
+
+    const result = newsletterSchema.safeParse({ email })
+    if (!result.success) {
+      toast.error(result.error.message)
+      return
+    }
+
     try {
-      if (email) {
-        setLoading(true)
-        await subscribeToNewsletter(email)
-        setLoading(false)
+      setLoading(true)
+      const result = await subscribeToNewsletter(email)
+      if (!result?.success) {
+        toast.error("No se pudo suscribir. Verifica tu email.")
+        return
       }
+      toast.success("¡Suscrito con éxito! Revisa tu email.")
+      event.currentTarget.reset()
     } catch (error) {
-      console.error("Error subscribing to newsletter:", error)
+      toast.error("Error al suscribirse. Inténtalo de nuevo.")
     } finally {
       setLoading(false)
     }
