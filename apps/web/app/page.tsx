@@ -1,6 +1,7 @@
 import { Card, MainCard } from "./components/card/card"
 import Footer from "./components/footer/footer"
 import Header from "./components/header/header"
+import Newsletter from "./components/newsletter/newsletter"
 import { Article, getArticles } from "./lib/post"
 import { buildSanityImgUrl } from "./lib/utils"
 import styles from "./page.module.css"
@@ -41,6 +42,7 @@ export default async function Home() {
             </li>
           ))}
         </ul>
+        <Newsletter />
       </main>
       <Footer />
     </div>
