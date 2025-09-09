@@ -16,14 +16,14 @@ export async function subscribeToNewsletter(email: string) {
       data: { email },
     })
 
-    const res = await sendWelcomeEmail(email)
+    // const res = await sendWelcomeEmail(email)
 
-    if (res?.status !== 200) {
-      return {
-        success: false,
-        message: "Error al enviar el email de bienvenida.",
-      }
-    }
+    // if (res?.status !== 200) {
+    //   return {
+    //     success: false,
+    //     message: "Error al enviar el email de bienvenida.",
+    //   }
+    // }
 
     return { success: true, message: "¡Suscrito con éxito! Revisa tu email." }
   } catch (error: any) {
