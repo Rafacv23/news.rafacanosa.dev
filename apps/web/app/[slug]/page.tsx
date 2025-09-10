@@ -4,7 +4,7 @@ import { getArticleBySlug } from "../lib/post"
 import { buildSanityImgUrl } from "../lib/utils"
 import Link from "next/link"
 import { PortableText } from "@portabletext/react"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, ArrowRight } from "lucide-react"
 import Newsletter from "../components/newsletter/newsletter"
 
 export async function generateMetadata({
@@ -63,9 +63,6 @@ export default async function PostPage({
   return (
     <div className={styles.page}>
       <main>
-        <Link href="/" title="Home" className={styles.back}>
-          <ArrowLeft size={16} /> Volver
-        </Link>
         <img
           src={buildSanityImgUrl(article.mainImage.asset._ref)}
           alt={article.title}
@@ -81,6 +78,15 @@ export default async function PostPage({
           {new Date(article.publishedAt).toLocaleDateString()}
         </footer>
         <Newsletter />
+        <section className={styles.nav}>
+          <Link href="/" title="Inicio" className={styles.back}>
+            <ArrowLeft size={16} /> Volver
+          </Link>
+          {/* <Link href="/blog/page/2" title="Siguiente" className={styles.back}>
+            Otro artículo
+            <ArrowRight size={16} />
+          </Link> */}
+        </section>
       </main>
     </div>
   )

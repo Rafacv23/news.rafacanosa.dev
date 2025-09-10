@@ -1,6 +1,5 @@
 .page {
   display: grid;
-  grid-template-rows: 20px 1fr 20px;
   min-height: 100svh;
   padding: 80px;
   gap: 64px;
@@ -128,4 +127,14 @@
 .prose blockquote {
   margin-bottom: 1.25rem;
   line-height: 1.7;
+}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 2rem;
 }
