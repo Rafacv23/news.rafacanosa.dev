@@ -5,6 +5,7 @@ import { buildSanityImgUrl } from "../lib/utils"
 import Link from "next/link"
 import { PortableText } from "@portabletext/react"
 import { ArrowLeft } from "lucide-react"
+import Newsletter from "../components/newsletter/newsletter"
 
 export async function generateMetadata({
   params,
@@ -79,6 +80,7 @@ export default async function PostPage({
           {article.author.name} |{" "}
           {new Date(article.publishedAt).toLocaleDateString()}
         </footer>
+        <Newsletter />
       </main>
     </div>
   )

@@ -3,18 +3,6 @@
   --foreground: #21201c;
   --secondary: #030712a7;
   --card: #f5f4f4;
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    "Open Sans",
-    "Helvetica Neue",
-    sans-serif;
 }
 
 [data-theme="dark"] {
@@ -22,18 +10,6 @@
   --foreground: #fdfdfc;
   --secondary: #f5f4f4c0;
   --card: #e5e7eb0e;
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    "Open Sans",
-    "Helvetica Neue",
-    sans-serif;
 }
 
 html,
@@ -44,6 +20,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: var(--font-geist-sans), sans-serif;
 }
 
 body {
