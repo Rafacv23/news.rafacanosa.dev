@@ -45,6 +45,80 @@ export async function generateMetadata({
   }
 }
 
+function Skeleton() {
+  return (
+    <div className={styles.page}>
+      <main>
+        <div
+          className={styles.img}
+          style={{
+            background: "var(--card)",
+            height: 320,
+            borderRadius: 8,
+            marginBottom: 24,
+          }}
+        />
+        <div
+          style={{
+            height: 40,
+            width: "70%",
+            background: "var(--card)",
+            borderRadius: 6,
+            marginBottom: 16,
+          }}
+        />
+        <div
+          style={{
+            height: 24,
+            width: "50%",
+            background: "var(--card)",
+            borderRadius: 6,
+            marginBottom: 32,
+          }}
+        />
+        <div className={styles.prose}>
+          <div
+            style={{
+              height: 16,
+              width: "100%",
+              background: "var(--card)",
+              borderRadius: 4,
+              marginBottom: 8,
+            }}
+          />
+          <div
+            style={{
+              height: 16,
+              width: "90%",
+              background: "var(--card)",
+              borderRadius: 4,
+              marginBottom: 8,
+            }}
+          />
+          <div
+            style={{
+              height: 16,
+              width: "95%",
+              background: "var(--card)",
+              borderRadius: 4,
+              marginBottom: 8,
+            }}
+          />
+          <div
+            style={{
+              height: 16,
+              width: "80%",
+              background: "var(--card)",
+              borderRadius: 4,
+              marginBottom: 24,
+            }}
+          />
+        </div>
+      </main>
+    </div>
+  )
+}
+
 export default async function PostPage({
   params,
 }: {
@@ -57,7 +131,7 @@ export default async function PostPage({
   const article = await getArticleBySlug(slug)
 
   if (!article) {
-    return <div>Loading...</div>
+    return <Skeleton />
   }
 
   return (

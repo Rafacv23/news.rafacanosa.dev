@@ -4,6 +4,8 @@
   padding: 80px;
   gap: 64px;
   font-synthesis: none;
+  width: 100vw;
+  max-width: 900px;
 }
 
 .main {
