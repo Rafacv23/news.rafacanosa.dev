@@ -31,6 +31,9 @@ export default async function Home() {
           img={buildSanityImgUrl(firstArticle.mainImage.asset._ref)}
           href={firstArticle.slug || ""}
         />
+        {otherArticles.length > 0 && (
+          <h4 className={styles.title}>Últimas entradas</h4>
+        )}
         <ul className={styles.articlesList}>
           {otherArticles.map((article: Article) => (
             <li key={article._id} className={styles.card}>
