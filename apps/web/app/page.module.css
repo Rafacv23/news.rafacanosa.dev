@@ -12,6 +12,11 @@
   }
 }
 
+.title {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
 .articlesList {
   display: grid;
   grid-template-columns: repeat(2, minmax(280px, 1fr));
