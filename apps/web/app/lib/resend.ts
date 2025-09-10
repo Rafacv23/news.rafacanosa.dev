@@ -1,5 +1,5 @@
 import { Resend } from "resend"
-import { EmailTemplate } from "../components/email-template/email-template"
+import WelcomeEmail from "../components/email-template/email-template"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -8,8 +8,8 @@ export async function sendWelcomeEmail(email: string) {
     const { data, error } = await resend.emails.send({
       from: "Rafa <hello@rafacanosa.dev>",
       to: [email],
-      subject: "Hello world",
-      react: EmailTemplate({ firstName: email }),
+      subject: "🎉 Bienvenido a la newsletter de news.rafacanosa.dev",
+      react: WelcomeEmail(),
     })
 
     if (error) {
