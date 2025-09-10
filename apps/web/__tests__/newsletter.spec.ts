@@ -17,14 +17,29 @@ describe("subscribeToNewsletter", () => {
     vi.clearAllMocks()
   })
 
-  it("returns success: true for a valid email", async () => {
+  it("returns: true for a valid email", async () => {
     const result =
       await newsletterModule.subscribeToNewsletter("test@example.com")
-    expect(result).toEqual({ success: true })
+    expect(result).toEqual({
+      success: true,
+      message: "¡Suscrito con éxito! Revisa tu email.",
+    })
   })
 
-  it("returns success: false for an invalid email", async () => {
+  it("returns: false for a duplicate email", async () => {
+    const result =
+      await newsletterModule.subscribeToNewsletter("test@example.com")
+    expect(result).toEqual({
+      success: false,
+      message: "Este email ya está suscrito. Prueba con otro.",
+    })
+  })
+
+  it("returns: false for an invalid email", async () => {
     const result = await newsletterModule.subscribeToNewsletter("invalid-email")
-    expect(result).toEqual({ success: false })
+    expect(result).toEqual({
+      success: false,
+      message: "Email inválido.",
+    })
   })
 })
