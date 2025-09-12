@@ -13,12 +13,12 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@next/third-parties": "^15.5.3",
     "@portabletext/react": "^4.0.3",
     "@prisma/client": "^6.15.0",
     "@react-email/components": "^0.5.3",
     "@react-email/render": "^1.2.3",
     "@repo/ui": "workspace:*",
-    "google": "link:@next/third-parties/google",
     "lucide-react": "^0.542.0",
     "next": "^15.5.0",
     "next-themes": "^0.4.6",
