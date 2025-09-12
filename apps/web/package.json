@@ -18,6 +18,7 @@
     "@react-email/components": "^0.5.3",
     "@react-email/render": "^1.2.3",
     "@repo/ui": "workspace:*",
+    "google": "link:@next/third-parties/google",
     "lucide-react": "^0.542.0",
     "next": "^15.5.0",
     "next-themes": "^0.4.6",
