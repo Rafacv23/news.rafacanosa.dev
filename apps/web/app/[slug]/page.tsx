@@ -20,6 +20,10 @@ export async function generateMetadata({
   return {
     title: article.seo.metaTitle,
     description: article.seo.metaDescription || "Detalle del artículo",
+    alternates: {
+      canonical: `https://news.rafacanosa.dev/${article.slug}`,
+    },
+
     openGraph: {
       title: article.seo.metaTitle,
       description: article.seo.metaDescription || "Detalle del artículo",
@@ -42,6 +46,9 @@ export async function generateMetadata({
         ? [buildSanityImgUrl(article.seo.metaImage.asset._ref)]
         : [],
     },
+    keywords: article.seo?.keywords || ["blog", "noticias", "Rafa Canosa"],
+    authors: [{ name: article.author.name }],
+    creator: article.author.name,
   }
 }
 
