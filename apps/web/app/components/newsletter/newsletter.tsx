@@ -32,9 +32,7 @@ export default function Newsletter() {
       setLoading(true)
       const response = await subscribeToNewsletter(email)
       if (!response?.success) {
-        toast.error(
-          response?.message || "Error al suscribirse. Inténtalo de nuevo."
-        )
+        toast.error(response?.message)
         return
       }
       toast.success(response.message)

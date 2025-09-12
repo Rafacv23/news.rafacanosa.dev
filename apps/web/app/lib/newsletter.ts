@@ -8,6 +8,7 @@ const prisma = new PrismaClient()
 export async function subscribeToNewsletter(email: string) {
   const result = newsletterSchema.safeParse({ email })
   if (!result.success) {
+    console.error("Invalid email:", email)
     return {
       success: false,
       message: "Email inválido.",
@@ -22,6 +23,7 @@ export async function subscribeToNewsletter(email: string) {
     const res = await sendWelcomeEmail(email)
 
     if (res?.status !== 200) {
+      console.error("Error sending welcome email:", res)
       return {
         success: false,
         message: "Error al enviar el email de bienvenida.",
@@ -30,6 +32,7 @@ export async function subscribeToNewsletter(email: string) {
 
     return { success: true, message: "¡Suscrito con éxito! Revisa tu email." }
   } catch (error: any) {
+    console.error(error)
     // Optionally, handle duplicate email error:
     if (error.code === "P2002") {
       return {
