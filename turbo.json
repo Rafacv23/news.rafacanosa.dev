@@ -6,13 +6,25 @@
       "dependsOn": ["^test"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"],
-      "env": ["DATABASE_URL", "DIRECT_URL", "SINGLE_POST_URL", "ALL_POSTS_URL"]
+      "env": [
+        "DATABASE_URL",
+        "DIRECT_URL",
+        "SINGLE_POST_URL",
+        "ALL_POSTS_URL",
+        "RESEND_API_KEY"
+      ]
     },
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"],
-      "env": ["DATABASE_URL", "DIRECT_URL", "SINGLE_POST_URL", "ALL_POSTS_URL"]
+      "env": [
+        "DATABASE_URL",
+        "DIRECT_URL",
+        "SINGLE_POST_URL",
+        "ALL_POSTS_URL",
+        "RESEND_API_KEY"
+      ]
     },
     "lint": {
       "dependsOn": ["^lint"]
