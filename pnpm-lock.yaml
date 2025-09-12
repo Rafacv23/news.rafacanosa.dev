@@ -75,9 +75,6 @@ importers:
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
-      google:
-        specifier: link:@next/third-parties/google
-        version: link:@next/third-parties/google
       lucide-react:
         specifier: ^0.542.0
         version: 0.542.0(react@19.1.0)
