@@ -40,7 +40,7 @@ export default function Newsletter() {
       toast.success(response.message)
       form.reset()
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error("Error al suscribirse. Inténtalo de nuevo.")
     } finally {
       setLoading(false)
     }
