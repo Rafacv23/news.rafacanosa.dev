@@ -6,6 +6,7 @@ import Link from "next/link"
 import { PortableText } from "@portabletext/react"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import Newsletter from "../components/newsletter/newsletter"
+import RelatedPost from "../components/related-post/related-post"
 
 export async function generateMetadata({
   params,
@@ -163,10 +164,12 @@ export default async function PostPage({
           <Link href="/" title="Inicio" className={styles.back}>
             <ArrowLeft size={16} /> Volver
           </Link>
-          {/* <Link href="/blog/page/2" title="Siguiente" className={styles.back}>
-            Otro artículo
-            <ArrowRight size={16} />
-          </Link> */}
+          {article && (
+            <RelatedPost
+              category={article.categories?.[0]?.title ?? ""}
+              currentPostSlug={article.slug ?? ""}
+            />
+          )}
         </section>
       </main>
     </div>

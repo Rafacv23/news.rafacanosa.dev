@@ -86,3 +86,42 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
   const article = await res.json()
   return article.result
 }
+
+/**
+ * Returns a random post based on the current category post
+ *
+ * @param category - The category of the current post
+ * @param currentPostSlug - The slug of the current post
+ * @returns A random post from the same category
+ */
+export async function getRelatedPost({
+  category,
+  currentPostSlug,
+}: {
+  category: string
+  currentPostSlug: string
+}) {
+  if (!category || !currentPostSlug) {
+    throw new Error("Missing category or currentPostSlug")
+  }
+
+  const url = process.env.RELATED_POSTS_URL?.replace(
+    "$category",
+    category
+  )?.replace("$currentPostSlug", currentPostSlug)
+
+  console.log(category)
+  console.log(currentPostSlug)
+
+  if (!url) {
+    throw new Error("Missing URL")
+  }
+
+  const res = await fetch(url)
+
+  const posts = await res.json()
+
+  console.log(posts.result)
+
+  return posts.result
+}

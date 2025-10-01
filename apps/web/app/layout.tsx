@@ -69,7 +69,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  manifest: "/site.webmanifest",
   metadataBase: new URL("https://news.rafacanosa.dev"),
 }
 
