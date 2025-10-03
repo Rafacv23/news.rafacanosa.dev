@@ -4,9 +4,8 @@ import { getArticleBySlug } from "../lib/post";
 import { buildSanityImgUrl } from "../lib/utils";
 import Link from "next/link";
 import { PortableText } from "@portabletext/react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Newsletter from "../components/newsletter/newsletter";
-import RelatedPost from "../components/related-post/related-post";
 import type { Metadata, ResolvingMetadata } from "next";
 
 type Props = {
@@ -168,12 +167,6 @@ export default async function PostPage({
           <Link href="/" title="Inicio" className={styles.back}>
             <ArrowLeft size={16} /> Volver
           </Link>
-          {article && (
-            <RelatedPost
-              category={article.categories?.[0]?.title ?? ""}
-              currentPostSlug={article.slug ?? ""}
-            />
-          )}
         </section>
       </main>
     </div>
