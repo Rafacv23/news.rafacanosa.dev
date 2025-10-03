@@ -18,10 +18,8 @@
 }
 
 .articlesList {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
-
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-  }
+  list-style: none;
 }
