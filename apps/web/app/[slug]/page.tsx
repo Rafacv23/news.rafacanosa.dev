@@ -1,22 +1,26 @@
-import { notFound } from "next/navigation"
-import styles from "./page.module.css"
-import { getArticleBySlug } from "../lib/post"
-import { buildSanityImgUrl } from "../lib/utils"
-import Link from "next/link"
-import { PortableText } from "@portabletext/react"
-import { ArrowLeft, ArrowRight } from "lucide-react"
-import Newsletter from "../components/newsletter/newsletter"
-import RelatedPost from "../components/related-post/related-post"
+import { notFound } from "next/navigation";
+import styles from "./page.module.css";
+import { getArticleBySlug } from "../lib/post";
+import { buildSanityImgUrl } from "../lib/utils";
+import Link from "next/link";
+import { PortableText } from "@portabletext/react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import Newsletter from "../components/newsletter/newsletter";
+import RelatedPost from "../components/related-post/related-post";
+import type { Metadata, ResolvingMetadata } from "next";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>
-}) {
-  const { slug } = await params
+type Props = {
+  params: Promise<{ slug: string }>;
+};
 
-  const article = await getArticleBySlug(slug)
-  if (!article) return {}
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const { slug } = await params;
+
+  const article = await getArticleBySlug(slug);
+  if (!article) return {};
 
   return {
     title: article.seo.metaTitle,
@@ -50,7 +54,7 @@ export async function generateMetadata({
     keywords: article.seo?.keywords || ["blog", "noticias", "Rafa Canosa"],
     authors: [{ name: article.author.name }],
     creator: article.author.name,
-  }
+  };
 }
 
 function Skeleton() {
@@ -124,22 +128,22 @@ function Skeleton() {
         </div>
       </main>
     </div>
-  )
+  );
 }
 
 export default async function PostPage({
   params,
 }: {
-  params: Promise<{ slug: string }>
+  params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params
+  const { slug } = await params;
 
-  if (!slug) return notFound()
+  if (!slug) return notFound();
 
-  const article = await getArticleBySlug(slug)
+  const article = await getArticleBySlug(slug);
 
   if (!article) {
-    return <Skeleton />
+    return <Skeleton />;
   }
 
   return (
@@ -173,5 +177,5 @@ export default async function PostPage({
         </section>
       </main>
     </div>
-  )
+  );
 }
