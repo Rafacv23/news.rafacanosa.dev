@@ -4,7 +4,7 @@ description: "He terminado la primera temporada de Nippon Sangoku y es de las me
 publishedAt: 2026-10-05
 category: anime
 tags: ["nippon sangoku", "anime", "reseña"]
-cover: ./cover.webp
+cover: ./cover.jpg
 coverAlt: "Nippon Sangoku, primera temporada"
 draft: true
 ---
