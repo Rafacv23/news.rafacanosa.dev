@@ -3,7 +3,7 @@
   "type": "module",
   "private": true,
   "engines": {
-    "node": ">=22.12.0"
+    "node": "24.x"
   },
   "scripts": {
     "dev": "astro dev",
@@ -34,14 +34,5 @@
     "typescript": "^5",
     "vitest": "^5.0.3"
   },
-  "pnpm": {
-    "packageExtensions": {
-      "@napi-rs/wasm-runtime": {
-        "dependencies": {
-          "@emnapi/core": "1.11.3",
-          "@emnapi/runtime": "1.11.3"
-        }
-      }
-    }
-  }
+  "packageManager": "pnpm@10.34.6"
 }
