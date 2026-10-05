@@ -1,0 +1,42 @@
+---
+import Base from "../../layouts/Base.astro"
+import { createDb } from "../../db/index.ts"
+import { unsubscribe } from "../../lib/newsletter.ts"
+
+export const prerender = false
+
+// GET muestra un botón; solo el POST da de baja. Así los antivirus del correo que
+// abren los enlaces no dan de baja a nadie. Gmail/Yahoo hacen POST directo (List-Unsubscribe-Post).
+const token = Astro.url.searchParams.get("token") ?? ""
+let done: boolean | undefined
+if (Astro.request.method === "POST") {
+  done = await unsubscribe(createDb(), token)
+  if (!done) Astro.response.status = 404
+}
+---
+
+<Base title="Darse de baja" noindex>
+  <main class="container">
+    {
+      done === undefined ? (
+        <>
+          <h1 class="section-title">¿Darte de baja de la newsletter?</h1>
+          <p>Borraré tu email y no volverás a recibir nada.</p>
+          <form method="post" style="margin-top:2rem">
+            <button class="btn">Sí, darme de baja</button>
+          </form>
+        </>
+      ) : done ? (
+        <>
+          <h1 class="section-title">Te has dado de baja</h1>
+          <p>He borrado tu email. Si cambias de opinión, puedes volver a suscribirte desde el blog.</p>
+        </>
+      ) : (
+        <>
+          <h1 class="section-title">Enlace no válido</h1>
+          <p>Este enlace no existe o ya te habías dado de baja.</p>
+        </>
+      )
+    }
+  </main>
+</Base>

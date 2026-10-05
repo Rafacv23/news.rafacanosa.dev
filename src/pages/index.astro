@@ -1,0 +1,76 @@
+---
+import Base from "../layouts/Base.astro"
+import Card from "../components/Card.astro"
+import Carousel from "../components/Carousel.astro"
+import Icon from "../components/Icon.astro"
+import Newsletter from "../components/Newsletter.astro"
+import { getPosts } from "../lib/content"
+import { usedCategories } from "../lib/posts"
+import { CATEGORIES, SITE } from "../lib/site"
+
+const posts = await getPosts()
+const [featured, ...rest] = posts
+const latest = rest.slice(0, 6)
+const categories = usedCategories(posts)
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE.name,
+  url: SITE.url,
+  inLanguage: "es-ES",
+  author: { "@type": "Person", name: SITE.author, url: SITE.authorUrl },
+}
+---
+
+<Base jsonLd={jsonLd}>
+  <main class="container">
+    <h1 class="sr-only">{SITE.name}</h1>
+    {featured && <Card post={featured} variant="featured" />}
+
+    {
+      latest.length > 0 && (
+        <section>
+          <h2 class="section-title">Últimas entradas</h2>
+          <ul>
+            {latest.map((post) => (
+              <li>
+                <Card post={post} />
+              </li>
+            ))}
+          </ul>
+          {posts.length > latest.length + 1 && (
+            <a href="/articulos" class="btn outline all">
+              Ver todos los artículos <Icon name="arrow-right" />
+            </a>
+          )}
+        </section>
+      )
+    }
+
+    {
+      categories.length > 1 &&
+        categories.map((category) => (
+          <Carousel
+            title={CATEGORIES[category].label}
+            href={`/categoria/${category}`}
+            posts={posts.filter((p) => p.data.category === category).slice(0, 10)}
+          />
+        ))
+    }
+
+    <Newsletter />
+  </main>
+</Base>
+
+<style>
+  ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .all {
+    margin-top: 1rem;
+  }
+</style>

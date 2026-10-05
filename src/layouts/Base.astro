@@ -1,0 +1,78 @@
+---
+import type { ImageMetadata } from "astro"
+import { getImage } from "astro:assets"
+import "../styles/global.css"
+import Header from "../components/Header.astro"
+import Footer from "../components/Footer.astro"
+import Search from "../components/Search.astro"
+import defaultOg from "../assets/og-default.jpg"
+import { SITE } from "../lib/site"
+
+interface Props {
+  title?: string
+  description?: string
+  image?: ImageMetadata
+  imageAlt?: string
+  type?: "website" | "article"
+  noindex?: boolean
+  jsonLd?: object | object[]
+}
+
+const {
+  title,
+  description = SITE.description,
+  image = defaultOg,
+  imageAlt = SITE.name,
+  type = "website",
+  noindex = false,
+  jsonLd,
+} = Astro.props
+
+const fullTitle = title ? `${title} | ${SITE.name}` : SITE.name
+const canonical = new URL(Astro.url.pathname, Astro.site).href
+const og = await getImage({ src: image, width: 1200, height: 630, fit: "cover", format: "jpg" })
+const ogUrl = new URL(og.src, Astro.site).href
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="alternate" type="application/rss+xml" title={SITE.name} href="/rss.xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="preload" href="/fonts/GeistVF.woff" as="font" type="font/woff" crossorigin />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:title" content={title ?? SITE.name} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@rafacanosa" />
+    <slot name="head" />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+
+    <script is:inline>
+      document.documentElement.dataset.theme =
+        localStorage.getItem("theme") ?? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+    </script>
+  </head>
+  <body>
+    <slot name="top" />
+    <Header />
+    <slot />
+    <Footer />
+    <Search />
+  </body>
+</html>

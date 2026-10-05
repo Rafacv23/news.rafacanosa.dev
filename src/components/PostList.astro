@@ -1,0 +1,41 @@
+---
+import type { Page } from "astro"
+import type { CollectionEntry } from "astro:content"
+import Card from "./Card.astro"
+import Icon from "./Icon.astro"
+
+interface Props {
+  page: Page<CollectionEntry<"articulos">>
+}
+const { page } = Astro.props
+---
+
+<ul>
+  {page.data.map((post) => <li><Card post={post} /></li>)}
+</ul>
+{
+  page.lastPage > 1 && (
+    <nav class="pagination" aria-label="Paginación">
+      {page.url.prev ? <a class="btn outline" href={page.url.prev}><Icon name="arrow-left" /> Más recientes</a> : <span />}
+      <span>Página {page.currentPage} de {page.lastPage}</span>
+      {page.url.next ? <a class="btn outline" href={page.url.next}>Más antiguos <Icon name="arrow-right" /></a> : <span />}
+    </nav>
+  )
+}
+
+<style>
+  ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    color: var(--secondary);
+    font-size: 0.9rem;
+  }
+</style>

@@ -1,0 +1,117 @@
+---
+import type { MarkdownHeading } from "astro"
+
+interface Props {
+  headings: MarkdownHeading[]
+}
+const headings = Astro.props.headings.filter((h) => h.depth === 2 || h.depth === 3)
+---
+
+{
+  headings.length >= 3 && (
+    <nav class="toc" aria-label="Índice del artículo">
+      <details>
+        <summary>Índice</summary>
+        <ol>
+          {headings.map((h) => (
+            <li class={`d${h.depth}`}>
+              <a href={`#${h.slug}`}>{h.text}</a>
+            </li>
+          ))}
+        </ol>
+      </details>
+    </nav>
+  )
+}
+
+<script>
+  const toc = document.querySelector<HTMLElement>(".toc")
+  if (toc) {
+    const details = toc.querySelector("details")!
+    const wide = matchMedia("(min-width: 1280px)")
+    // En escritorio el índice va siempre abierto en el lateral.
+    const sync = () => (details.open = wide.matches)
+    sync()
+    wide.addEventListener("change", sync)
+
+    const links = new Map([...toc.querySelectorAll("a")].map((a) => [decodeURIComponent(a.hash.slice(1)), a]))
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.find((e) => e.isIntersecting)
+        if (!visible) return
+        links.forEach((a) => a.removeAttribute("aria-current"))
+        links.get(visible.target.id)?.setAttribute("aria-current", "true")
+      },
+      { rootMargin: "0px 0px -70% 0px" },
+    )
+    links.forEach((_, id) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+  }
+</script>
+
+<style>
+  .toc {
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+  }
+  summary {
+    cursor: pointer;
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    background: var(--card);
+    border-radius: 0.5rem;
+  }
+  ol {
+    list-style: none;
+    padding: 0.75rem 0 0;
+  }
+  .d3 {
+    padding-left: 1rem;
+  }
+  a {
+    display: block;
+    padding: 0.3rem 0.75rem;
+    color: var(--secondary);
+    border-left: 2px solid var(--card);
+    transition: color 0.15s, border-color 0.15s;
+    &:hover {
+      color: var(--foreground);
+    }
+    &[aria-current] {
+      color: var(--foreground);
+      border-color: var(--accent-2, var(--foreground));
+      font-weight: 500;
+    }
+  }
+  @media (min-width: 1280px) {
+    .toc {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(100% + 2rem);
+      width: 240px;
+      margin: 0;
+    }
+    details {
+      position: sticky;
+      top: 2rem;
+      max-height: calc(100vh - 4rem);
+      overflow-y: auto;
+    }
+    summary {
+      background: none;
+      padding: 0 0.75rem;
+      pointer-events: none;
+      list-style: none;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      color: var(--secondary);
+    }
+    summary::-webkit-details-marker {
+      display: none;
+    }
+  }
+</style>

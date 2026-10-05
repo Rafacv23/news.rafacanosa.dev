@@ -1,0 +1,67 @@
+---
+import type { CollectionEntry } from "astro:content"
+import Card from "./Card.astro"
+import Icon from "./Icon.astro"
+
+interface Props {
+  title: string
+  posts: CollectionEntry<"articulos">[]
+  href?: string
+}
+const { title, posts, href } = Astro.props
+---
+
+<section class="carousel" aria-label={title}>
+  <div class="head">
+    <h2 class="section-title">{title}</h2>
+    {href && <a href={href} class="btn outline">Ver todos <Icon name="arrow-right" /></a>}
+    <button type="button" class="btn outline" data-dir="-1" aria-label="Anteriores"><Icon name="chevron-left" /></button>
+    <button type="button" class="btn outline" data-dir="1" aria-label="Siguientes"><Icon name="chevron-right" /></button>
+  </div>
+  <ul>
+    {posts.map((post) => <li><Card post={post} variant="compact" /></li>)}
+  </ul>
+</section>
+
+<script>
+  document.querySelectorAll(".carousel").forEach((carousel) => {
+    const track = carousel.querySelector("ul")!
+    carousel.querySelectorAll<HTMLButtonElement>("[data-dir]").forEach((btn) =>
+      btn.addEventListener("click", () => track.scrollBy({ left: Number(btn.dataset.dir) * track.clientWidth * 0.8, behavior: "smooth" })),
+    )
+  })
+</script>
+
+<style>
+  .head {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 2rem 0 1rem;
+    & h2 {
+      margin: 0 auto 0 0;
+    }
+  }
+  ul {
+    list-style: none;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 280px;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: 0.5rem;
+  }
+  li {
+    scroll-snap-align: start;
+  }
+  @media (max-width: 600px) {
+    ul {
+      grid-auto-columns: 75%;
+    }
+    [data-dir] {
+      display: none;
+    }
+  }
+</style>

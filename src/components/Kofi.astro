@@ -1,0 +1,37 @@
+---
+import Icon from "./Icon.astro"
+import { SITE } from "../lib/site"
+---
+
+<aside class="kofi">
+  <p><strong>¿Te ha gustado?</strong> El blog no tiene anuncios. Si quieres apoyarlo, puedes invitarme a un café.</p>
+  <a href={SITE.kofi} target="_blank" rel="noopener" class="btn"><Icon name="coffee" /> Invítame a un café</a>
+</aside>
+
+<style>
+  .kofi {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    margin: 2rem 0;
+    background: var(--card);
+    border-radius: 0.75rem;
+    & p {
+      flex: 1;
+      color: var(--secondary);
+    }
+    & strong {
+      color: var(--foreground);
+    }
+  }
+  @media (max-width: 600px) {
+    .kofi {
+      flex-direction: column;
+      align-items: stretch;
+      & a {
+        justify-content: center;
+      }
+    }
+  }
+</style>

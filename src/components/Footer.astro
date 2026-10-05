@@ -1,0 +1,50 @@
+---
+import Icon from "./Icon.astro"
+import { SITE } from "../lib/site"
+---
+
+<footer class="container footer">
+  <nav aria-label="Enlaces">
+    <a href={SITE.authorUrl} target="_blank" rel="noopener" title="Mi web personal"><Icon name="globe" size={20} /></a>
+    <a href={SITE.github} target="_blank" rel="noopener" title="GitHub"><Icon name="github" size={20} /></a>
+    <a href="/rss.xml" title="RSS"><Icon name="rss" size={20} /></a>
+    <a href={SITE.kofi} target="_blank" rel="noopener" title="Invítame a un café en Ko-fi"><Icon name="coffee" size={20} /></a>
+  </nav>
+  <p>© {new Date().getFullYear()} Rafa Canosa · <a href="/privacidad">Privacidad</a></p>
+</footer>
+
+<style>
+  .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    border-top: 1px solid var(--card);
+    margin-top: 3rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    font-size: 0.9rem;
+    color: var(--secondary);
+  }
+  nav {
+    display: flex;
+    gap: 0.5rem;
+  }
+  nav a {
+    display: inline-flex;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    color: var(--foreground);
+    transition: all 0.1s ease-in-out;
+    &:hover {
+      background-color: var(--card);
+    }
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+  p a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

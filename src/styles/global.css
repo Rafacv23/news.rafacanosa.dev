@@ -1,0 +1,176 @@
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/GeistVF.woff") format("woff");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root,
+[data-theme="light"] {
+  --background: #fdfdfc;
+  --foreground: #21201c;
+  --secondary: #030712a7;
+  --card: #f5f4f4;
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --background: #21201c;
+  --foreground: #fdfdfc;
+  --secondary: #f5f4f4c0;
+  --card: #e5e7eb0e;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-padding-top: 2rem;
+}
+
+body {
+  font-family: "Geist", system-ui, sans-serif;
+  color: var(--foreground);
+  background: var(--background);
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.section-title {
+  margin: 2rem 0 1rem;
+}
+
+.btn {
+  font: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 10px 16px;
+  border-radius: 0.5rem;
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.1s ease-in-out;
+  background-color: var(--foreground);
+  color: var(--background);
+
+  &:hover {
+    opacity: 0.8;
+  }
+  &:active {
+    transform: scale(0.98);
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: wait;
+  }
+}
+
+.btn.outline {
+  background-color: transparent;
+  color: var(--foreground);
+
+  &:hover {
+    opacity: 1;
+    background-color: var(--card);
+  }
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.prose {
+  font-size: 1rem;
+  line-height: 1.75rem;
+
+  & p,
+  & h2,
+  & h3,
+  & h4,
+  & ul,
+  & ol,
+  & blockquote,
+  & pre {
+    margin-bottom: 1.25rem;
+    line-height: 1.7;
+  }
+  & h2,
+  & h3 {
+    margin-top: 2rem;
+  }
+  & ul,
+  & ol {
+    padding-left: 1.5rem;
+  }
+  & li {
+    margin-bottom: 0.5rem;
+  }
+  & a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  & blockquote {
+    border-left: 3px solid var(--card);
+    padding-left: 1rem;
+    color: var(--secondary);
+  }
+  & img,
+  & iframe {
+    border-radius: 0.5rem;
+    max-width: 100%;
+  }
+  & iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    border: 0;
+  }
+  & code {
+    background: var(--card);
+    padding: 0.1rem 0.3rem;
+    border-radius: 0.25rem;
+  }
+}

@@ -1,0 +1,38 @@
+---
+interface Props {
+  colors: readonly [string, string]
+}
+const [from, to] = Astro.props.colors
+---
+
+<div class="progress" style={`--from:${from};--to:${to}`} aria-hidden="true"></div>
+
+<script>
+  // Mide el progreso del cuerpo del artículo, no de toda la página.
+  const bar = document.querySelector<HTMLElement>(".progress")!
+  const body = document.querySelector<HTMLElement>("[data-article-body]")!
+  let queued = false
+  const update = () => {
+    queued = false
+    const { top, height } = body.getBoundingClientRect()
+    const progress = Math.min(1, Math.max(0, -top / (height - innerHeight)))
+    bar.style.transform = `scaleX(${progress})`
+  }
+  addEventListener("scroll", () => !queued && (queued = requestAnimationFrame(update) > 0), { passive: true })
+  addEventListener("resize", update)
+  update()
+</script>
+
+<style>
+  .progress {
+    position: fixed;
+    inset: 0 0 auto;
+    height: 4px;
+    z-index: 100;
+    transform-origin: left;
+    transform: scaleX(0);
+    background: linear-gradient(90deg, var(--from), var(--to));
+    box-shadow: 0 0 12px var(--to);
+    border-radius: 0 4px 4px 0;
+  }
+</style>

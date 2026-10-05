@@ -1,0 +1,147 @@
+---
+import Icon from "./Icon.astro"
+---
+
+<dialog id="search" aria-label="Buscar artículos">
+  <form method="dialog" class="bar" role="search">
+    <Icon name="search" size={20} />
+    <input type="text" enterkeyhint="search" placeholder="Buscar artículos…" aria-label="Buscar" autocomplete="off" />
+    <button class="btn outline" aria-label="Cerrar"><Icon name="x" size={18} /></button>
+  </form>
+  <p class="status" aria-live="polite"></p>
+  <ul class="results"></ul>
+</dialog>
+
+<script is:inline>
+  // Fuera del bundle de Vite: así no reescribe este import dinámico.
+  // El índice lo genera Pagefind en el build; no existe en `pnpm dev`.
+  window.loadPagefind = () => import("/pagefind/pagefind.js")
+</script>
+
+<script>
+  type Result = { url: string; excerpt: string; meta: { title: string } }
+  type Pagefind = {
+    debouncedSearch: (q: string) => Promise<{ results: { data: () => Promise<Result> }[] } | null>
+  }
+
+  const dialog = document.getElementById("search") as HTMLDialogElement
+  const input = dialog.querySelector("input")!
+  const list = dialog.querySelector(".results")!
+  const status = dialog.querySelector(".status")!
+  let pagefind: Promise<Pagefind> | undefined
+
+  function open() {
+    dialog.showModal()
+    input.select()
+    pagefind ??= (window as unknown as { loadPagefind: () => Promise<Pagefind> }).loadPagefind()
+  }
+
+  document.querySelectorAll("[data-search-open]").forEach((b) => b.addEventListener("click", open))
+  document.addEventListener("keydown", (e) => {
+    const typing = e.target instanceof HTMLElement && e.target.matches("input, textarea")
+    if (((e.metaKey || e.ctrlKey) && e.key === "k") || (e.key === "/" && !typing)) {
+      e.preventDefault()
+      dialog.open ? dialog.close() : open()
+    }
+  })
+  // Cerrar al pulsar fuera del panel.
+  dialog.addEventListener("click", (e) => e.target === dialog && dialog.close())
+
+  input.addEventListener("input", async () => {
+    const q = input.value.trim()
+    if (!q) {
+      list.replaceChildren()
+      status.textContent = ""
+      return
+    }
+    let search
+    try {
+      search = await (await pagefind!).debouncedSearch(q)
+    } catch {
+      status.textContent = "La búsqueda no está disponible ahora mismo."
+      return
+    }
+    if (!search) return // la ha sustituido una búsqueda más reciente
+    const results = await Promise.all(search.results.slice(0, 8).map((r) => r.data()))
+    status.textContent = results.length ? "" : `Sin resultados para «${q}».`
+    list.replaceChildren(
+      ...results.map((r) => {
+        const li = document.createElement("li")
+        const a = document.createElement("a")
+        a.href = r.url.replace(/\/$/, "")
+        const title = document.createElement("strong")
+        title.textContent = r.meta.title
+        const excerpt = document.createElement("p")
+        excerpt.innerHTML = r.excerpt // Pagefind ya escapa el texto; solo añade <mark>
+        a.append(title, excerpt)
+        li.append(a)
+        return li
+      }),
+    )
+  })
+</script>
+
+<style>
+  dialog {
+    margin: 10vh auto auto;
+    width: min(600px, calc(100vw - 2rem));
+    max-height: 70vh;
+    border: 1px solid var(--card);
+    border-radius: 0.75rem;
+    background: var(--background);
+    color: var(--foreground);
+    padding: 0.5rem;
+    box-shadow: 0 20px 60px rgb(0 0 0 / 0.3);
+  }
+  dialog::backdrop {
+    background: rgb(0 0 0 / 0.4);
+    backdrop-filter: blur(2px);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-left: 0.75rem;
+  }
+  input {
+    flex: 1;
+    font: inherit;
+    font-size: 1rem;
+    padding: 0.75rem 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    outline: none;
+  }
+  .status:not(:empty) {
+    padding: 1rem;
+    color: var(--secondary);
+  }
+  .results {
+    list-style: none;
+  }
+  .results:not(:empty) {
+    border-top: 1px solid var(--card);
+    padding-top: 0.5rem;
+  }
+  /* Los resultados los crea JS, así que no llevan el atributo de scope de Astro. */
+  .results :global(a) {
+    display: block;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    &:hover,
+    &:focus-visible {
+      background: var(--card);
+    }
+  }
+  .results :global(p) {
+    color: var(--secondary);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+  }
+  .results :global(mark) {
+    background: none;
+    color: var(--foreground);
+    font-weight: 600;
+  }
+</style>
