@@ -1,0 +1,59 @@
+---
+import Base from "../layouts/Base.astro"
+import { SITE } from "../lib/site"
+---
+
+<Base title="Política de privacidad" description="Qué datos guarda este blog, para qué y cómo borrarlos.">
+  <main class="container prose">
+    <h1 class="section-title">Política de privacidad</h1>
+    <p>Última actualización: 5 de octubre de 2026.</p>
+
+    <h2>Quién es el responsable</h2>
+    <p>
+      {SITE.author}. Puedes escribirme a <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a> para cualquier
+      cosa relacionada con tus datos.
+    </p>
+
+    <h2>Qué datos guardo y para qué</h2>
+    <p>
+      <strong>Solo tu email, y solo si te suscribes a la newsletter.</strong> Lo uso únicamente para enviarte un aviso
+      cuando publique artículos nuevos. Nunca lo vendo ni lo comparto con nadie para otros fines.
+    </p>
+    <p>
+      La base legal es tu consentimiento: te pido que confirmes la suscripción con un enlace que te llega por email (doble
+      confirmación). Si no la confirmas, no recibirás nada más.
+    </p>
+
+    <h2>Cuánto tiempo lo guardo</h2>
+    <p>
+      Hasta que te des de baja. Cada email incluye un enlace para hacerlo con un clic y, al hacerlo, tu email se
+      <strong>borra</strong> de la base de datos. Las suscripciones que no se confirman se borran a los 7 días.
+    </p>
+
+    <h2>Con quién se comparte (encargados del tratamiento)</h2>
+    <ul>
+      <li><strong>Turso</strong> (ChiselStrike Inc.): base de datos donde se guarda tu email.</li>
+      <li><strong>Resend</strong> (Plus Five Five Inc.): servicio que envía los emails.</li>
+      <li><strong>Vercel</strong> (Vercel Inc.): alojamiento de la web.</li>
+    </ul>
+    <p>
+      Algunos de estos servicios pueden tratar datos fuera del Espacio Económico Europeo, bajo las garantías previstas en
+      el RGPD (cláusulas contractuales tipo o el Marco de Privacidad de Datos UE-EE. UU.).
+    </p>
+
+    <h2>Analítica y cookies</h2>
+    <p>
+      Este blog <strong>no usa cookies de seguimiento ni publicidad</strong>. Para saber qué artículos se leen uso Vercel
+      Web Analytics, que mide visitas de forma agregada y anónima, sin cookies y sin identificarte. La única información
+      que se guarda en tu navegador es tu preferencia de tema claro u oscuro (en <code>localStorage</code>).
+    </p>
+
+    <h2>Tus derechos</h2>
+    <p>
+      Puedes pedirme acceso, rectificación o borrado de tus datos, oponerte a su tratamiento o pedir su portabilidad
+      escribiendo a <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>. Si crees que no lo he hecho bien,
+      puedes reclamar ante la <a href="https://www.aepd.es" target="_blank" rel="noopener">Agencia Española de Protección
+      de Datos</a>.
+    </p>
+  </main>
+</Base>

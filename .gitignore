@@ -15,15 +15,11 @@ node_modules
 # Testing
 coverage
 
-# Turbo
-.turbo
 
 # Vercel
 .vercel
 
 # Build Outputs
-.next/
-out/
 build
 dist
 
@@ -36,3 +32,8 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+
+# Astro
+.astro
+test-results
+playwright-report

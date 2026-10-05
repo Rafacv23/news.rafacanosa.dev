@@ -1,0 +1,31 @@
+---
+import type { GetStaticPaths, Page } from "astro"
+import type { CollectionEntry } from "astro:content"
+import Base from "../../../layouts/Base.astro"
+import PostList from "../../../components/PostList.astro"
+import { getPosts } from "../../../lib/content"
+import { usedCategories } from "../../../lib/posts"
+import { CATEGORIES, SITE, type Category } from "../../../lib/site"
+
+// Solo se generan páginas para categorías con artículos.
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getPosts()
+  return usedCategories(posts).flatMap((category) =>
+    paginate(
+      posts.filter((p) => p.data.category === category),
+      { params: { category }, pageSize: SITE.postsPerPage },
+    ),
+  )
+}) satisfies GetStaticPaths
+
+const { page } = Astro.props as { page: Page<CollectionEntry<"articulos">> }
+const label = CATEGORIES[Astro.params.category as Category].label
+const title = page.currentPage > 1 ? `${label} (página ${page.currentPage})` : label
+---
+
+<Base title={title} description={`Artículos sobre ${label.toLowerCase()} en ${SITE.name}.`}>
+  <main class="container">
+    <h1 class="section-title">{label}</h1>
+    <PostList page={page} />
+  </main>
+</Base>

@@ -1,0 +1,22 @@
+---
+import type { GetStaticPaths, Page } from "astro"
+import type { CollectionEntry } from "astro:content"
+import Base from "../../layouts/Base.astro"
+import PostList from "../../components/PostList.astro"
+import { getPosts } from "../../lib/content"
+import { SITE } from "../../lib/site"
+
+export const getStaticPaths = (async ({ paginate }) => {
+  return paginate(await getPosts(), { pageSize: SITE.postsPerPage })
+}) satisfies GetStaticPaths
+
+const { page } = Astro.props as { page: Page<CollectionEntry<"articulos">> }
+const title = page.currentPage > 1 ? `Artículos (página ${page.currentPage})` : "Artículos"
+---
+
+<Base title={title} description={`Todos los artículos de ${SITE.name}.`}>
+  <main class="container">
+    <h1 class="section-title">Artículos</h1>
+    <PostList page={page} />
+  </main>
+</Base>

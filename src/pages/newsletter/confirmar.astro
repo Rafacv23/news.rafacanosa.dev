@@ -1,0 +1,25 @@
+---
+import Base from "../../layouts/Base.astro"
+import { createDb } from "../../db/index.ts"
+import { sendWithResend } from "../../lib/email.ts"
+import { confirm } from "../../lib/newsletter.ts"
+
+export const prerender = false
+
+const token = Astro.url.searchParams.get("token")
+const result = token ? await confirm(createDb(), token, Astro.url.origin, sendWithResend) : "invalid"
+const copy = {
+  confirmed: ["¡Suscripción confirmada! 🎉", "Te acabo de mandar un email de bienvenida. Nos leemos pronto."],
+  already: ["Ya estabas suscrito", "Tu suscripción ya estaba confirmada. No tienes que hacer nada más."],
+  invalid: ["Enlace no válido", "Este enlace no existe o ha caducado. Prueba a suscribirte de nuevo."],
+}[result]
+if (result === "invalid") Astro.response.status = 404
+---
+
+<Base title={copy[0]} noindex>
+  <main class="container">
+    <h1 class="section-title">{copy[0]}</h1>
+    <p>{copy[1]}</p>
+    <p><a href="/" class="btn" style="margin-top:2rem">Ir al blog</a></p>
+  </main>
+</Base>

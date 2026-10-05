@@ -1,0 +1,82 @@
+<section class="newsletter">
+  <h2>Newsletter</h2>
+  <p class="lead">Te aviso cuando publique algo nuevo. Sin spam.</p>
+  <form action="/api/newsletter" method="post">
+    <label for="newsletter-email" class="sr-only">Tu email</label>
+    <input type="email" name="email" id="newsletter-email" placeholder="Tu email" required />
+    <!-- Trampa para bots: los humanos no ven este campo. -->
+    <input type="text" name="website" tabindex="-1" autocomplete="off" class="sr-only" aria-hidden="true" />
+    <button type="submit" class="btn">Suscribirme</button>
+  </form>
+  <p class="message" role="status" aria-live="polite"></p>
+  <p class="legal">
+    Solo guardo tu email para enviarte la newsletter. Puedes darte de baja cuando quieras. Más info en la
+    <a href="/privacidad">política de privacidad</a>.
+  </p>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>(".newsletter form").forEach((form) => {
+    const button = form.querySelector("button")!
+    const message = form.parentElement!.querySelector<HTMLElement>(".message")!
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault()
+      button.disabled = true
+      button.textContent = "Enviando…"
+      try {
+        const res = await fetch(form.action, { method: "POST", body: new FormData(form) })
+        const { ok, message: text } = await res.json()
+        message.textContent = text
+        message.dataset.ok = String(ok)
+        if (ok) form.reset()
+      } catch {
+        message.textContent = "Error al suscribirse. Inténtalo de nuevo."
+        message.dataset.ok = "false"
+      } finally {
+        button.disabled = false
+        button.textContent = "Suscribirme"
+      }
+    })
+  })
+</script>
+
+<style>
+  .newsletter {
+    margin-top: 3rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+  .lead,
+  .legal {
+    color: var(--secondary);
+    margin: 0.5rem 0 1rem;
+  }
+  .legal {
+    font-size: 0.8rem;
+    & a {
+      text-decoration: underline;
+    }
+  }
+  form {
+    display: flex;
+    gap: 0.5rem;
+  }
+  input[type="email"] {
+    flex: 1;
+    font: inherit;
+    padding: 10px 16px;
+    background-color: var(--card);
+    color: var(--foreground);
+    border: 1px solid var(--card);
+    border-radius: 0.5rem;
+  }
+  .message:not(:empty) {
+    margin-top: 0.75rem;
+    font-weight: 500;
+  }
+  .message[data-ok="false"] {
+    color: #dc2626;
+  }
+</style>

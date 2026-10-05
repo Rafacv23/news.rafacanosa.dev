@@ -1,0 +1,129 @@
+---
+import { Image, getImage } from "astro:assets"
+import { render, type CollectionEntry } from "astro:content"
+import Base from "../layouts/Base.astro"
+import Carousel from "../components/Carousel.astro"
+import Icon from "../components/Icon.astro"
+import Kofi from "../components/Kofi.astro"
+import Newsletter from "../components/Newsletter.astro"
+import ReadingProgress from "../components/ReadingProgress.astro"
+import Toc from "../components/Toc.astro"
+import { getPosts } from "../lib/content"
+import { readingMinutes, relatedPosts } from "../lib/posts"
+import { CATEGORIES, SITE } from "../lib/site"
+
+export async function getStaticPaths() {
+  const posts = await getPosts()
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post, posts } }))
+}
+
+interface Props {
+  post: CollectionEntry<"articulos">
+  posts: CollectionEntry<"articulos">[]
+}
+const { post, posts } = Astro.props
+const { title, description, cover, coverAlt, publishedAt, updatedAt, category } = post.data
+const { Content, headings } = await render(post)
+const cat = CATEGORIES[category]
+const related = relatedPosts(post, posts)
+const url = new URL(`/${post.id}`, Astro.site).href
+const ogImage = await getImage({ src: cover, width: 1200, height: 630, fit: "cover", format: "jpg" })
+const dateFmt = new Intl.DateTimeFormat("es-ES", { dateStyle: "long" })
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: title,
+    description,
+    image: new URL(ogImage.src, Astro.site).href,
+    datePublished: publishedAt.toISOString(),
+    dateModified: (updatedAt ?? publishedAt).toISOString(),
+    inLanguage: "es-ES",
+    mainEntityOfPage: url,
+    articleSection: cat.label,
+    keywords: post.data.tags.join(", ") || undefined,
+    author: { "@type": "Person", name: SITE.author, url: SITE.authorUrl },
+    publisher: { "@type": "Person", name: SITE.author, url: SITE.authorUrl },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: SITE.url },
+      { "@type": "ListItem", position: 2, name: cat.label, item: `${SITE.url}/categoria/${category}` },
+      { "@type": "ListItem", position: 3, name: title, item: url },
+    ],
+  },
+]
+---
+
+<Base title={title} description={description} image={cover} imageAlt={coverAlt} type="article" jsonLd={jsonLd}>
+  <Fragment slot="head">
+    <meta property="article:published_time" content={publishedAt.toISOString()} />
+    {updatedAt && <meta property="article:modified_time" content={updatedAt.toISOString()} />}
+    <meta property="article:section" content={cat.label} />
+  </Fragment>
+  <ReadingProgress slot="top" colors={cat.colors} />
+
+  <main class="container" style={`--accent-2:${cat.colors[1]}`}>
+    <article>
+      <a href="/" class="btn outline back"><Icon name="arrow-left" /> Volver</a>
+      <Image src={cover} alt={coverAlt} widths={[720, 1440]} sizes="(max-width: 720px) 100vw, 720px" loading="eager" class="cover" />
+      <h1>{title}</h1>
+      <p class="description">{description}</p>
+      <p class="meta">
+        <a href={`/categoria/${category}`}>{cat.label}</a> ·
+        <time datetime={publishedAt.toISOString()}>{dateFmt.format(publishedAt)}</time> ·
+        {readingMinutes(post.body)} min de lectura
+      </p>
+
+      <div class="body">
+        <Toc headings={headings} />
+        <div class="prose" data-article-body data-pagefind-body>
+          <Content />
+        </div>
+      </div>
+    </article>
+
+    <Kofi />
+    {related.length > 0 && <Carousel title="Te puede interesar" posts={related} />}
+    <Newsletter />
+  </main>
+</Base>
+
+<style>
+  .back {
+    margin-bottom: 1rem;
+    font-weight: 400;
+  }
+  :global(.cover) {
+    border-radius: 0.5rem;
+    width: 100%;
+    max-height: 480px;
+    object-fit: cover;
+    margin-bottom: 1.5rem;
+  }
+  h1 {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .description {
+    font-size: 1.125rem;
+    color: var(--secondary);
+    margin-bottom: 1rem;
+  }
+  .meta {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    margin-bottom: 2rem;
+    & a {
+      color: var(--foreground);
+      font-weight: 600;
+    }
+  }
+  .body {
+    position: relative;
+  }
+</style>
