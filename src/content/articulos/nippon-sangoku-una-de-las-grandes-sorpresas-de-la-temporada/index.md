@@ -6,7 +6,6 @@ category: anime
 tags: ["nippon sangoku", "anime", "reseña"]
 cover: ./cover.jpg
 coverAlt: "Nippon Sangoku, primera temporada"
-draft: true
 ---
 
 Acabo de terminar la primera temporada de **Nippon Sangoku** y tenía que venir a recomendarla, porque me ha sorprendido muchísimo.
